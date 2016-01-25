@@ -1,18 +1,16 @@
 from django.contrib.auth.models import User
 from django.contrib import auth
-from register.models import Nickname
+from register.models import UserInfo
 
 
-class SignupByEmail(object):
+class SignupHelper(object):
     def __init__(self):
         pass
 
-    def signup(self, email, password, nickname):
-        username = email
+    def signup(self, username, password, nickname):
         try:
             user = User.objects.create_user(
                 username=username,
-                email=email,
                 password=password,
             )
             user.save()
@@ -23,21 +21,33 @@ class SignupByEmail(object):
             success = False
         return success
 
-    def get_nickname_by_username(self, username):
+    def get_user_info_by_username(self, username):
         try:
-            obj = Nickname.objects.get(username=username)
-            nickname = obj.nickname
-        except Nickname.DoesNotExist:
-            nickname = ""
-        return nickname
+            obj = UserInfo.objects.get(username=username)
+            user_info = dict(
+                username=obj.username,
+                nickname=obj.nickname,
+                profile_img_url=obj.profile_img_url
+            )
+        except UserInfo.DoesNotExist:
+            user_info = dict()
+        return user_info
 
     def __update_nickname(self, nickname, username):
         try:
-            obj = Nickname.objects.get(username=username)
+            obj = UserInfo.objects.get(username=username)
             obj.nickname = nickname
             obj.save()
-        except Nickname.DoesNotExist:
-            Nickname(
+        except UserInfo.DoesNotExist:
+            UserInfo(
                 nickname=nickname,
                 username=username
             ).save()
+
+    def check_username(self, username):
+        try:
+            UserInfo.objects.get(username=username)
+            is_valid = False
+        except UserInfo.DoesNotExist:
+            is_valid = True
+        return is_valid
