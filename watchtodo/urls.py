@@ -21,4 +21,8 @@ urlpatterns = [
 
     url(r'^auth/', include('register.urls_set.urls_register')),
     url(r'^friends/', include('register.urls_set.urls_friends')),
+
+    url(r'^todo/', include('api.urls_set.urls_todo_list')),
+    url(r'^watch/', include('api.urls_set.urls_watch')),
+
 ]
