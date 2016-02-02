@@ -27,6 +27,16 @@ class FriendsHelper(object):
         friend_list = UserInfoHelper().get_user_info_list_by_username_list(username_list)
         return friend_list
 
+    def get_friend_username_list(self):
+        username_list = []
+        for friend in Friend.objects.filter(requester=self.username, pending=False):
+            friend_username = friend.accepter
+            username_list.append(friend_username)
+        for friend in Friend.objects.filter(accepter=self.username, pending=False):
+            friend_username = friend.requester
+            username_list.append(friend_username)
+        return username_list
+
     def get_user_list_by_keyword(self, keyword):
         username_list_by_username = UserInfoHelper().get_user_info_list_by_username_list([keyword])
         username_list_by_nickname = []

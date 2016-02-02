@@ -21,6 +21,12 @@ class TodoListHelper(object):
             ))
         return todo_list
 
+    def get_open_action_id_list(self):
+        action_id_list = []
+        for row in ActionItem.objects.filter(username=self.username, pending=True):
+            action_id_list.append(row.action_id)
+        return action_id_list
+
     def add_action_item(self, action_id, action_info):
         ActionItem(
             action_id=action_id,

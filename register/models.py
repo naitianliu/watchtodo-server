@@ -20,4 +20,4 @@ class Friend(models.Model):
     updated_time = models.IntegerField()
 
     def __unicode__(self):
-        return self.user_id
+        return self.requester
