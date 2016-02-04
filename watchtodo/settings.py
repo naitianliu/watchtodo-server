@@ -77,6 +77,9 @@ WSGI_APPLICATION = 'watchtodo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+import codecs
+codecs.register(lambda name: codecs.lookup('utf8') if name == 'utf8mb4' else None)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
