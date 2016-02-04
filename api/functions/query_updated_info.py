@@ -67,3 +67,13 @@ class QueryUpdatedInfo(object):
             updated_comments_watch=updated_comments_watch
         )
         return updated_info
+
+    def get_updated_watch_info(self):
+        watch_action_id_list = WatchHelper(self.username).get_watch_action_id_list()
+        updated_actions_watch = self.__get_updated_actions_by_actions(watch_action_id_list)
+        updated_comments_watch = self.__get_updated_comments_by_actions(watch_action_id_list)
+        updated_watch_info = dict(
+            updated_actions_watch=updated_actions_watch,
+            updated_comments_watch=updated_comments_watch
+        )
+        return updated_watch_info

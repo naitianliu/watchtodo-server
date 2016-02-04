@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^todo/', include('api.urls_set.urls_todo_list')),
     url(r'^watch/', include('api.urls_set.urls_watch')),
     url(r'^comment/', include('api.urls_set.urls_comment')),
+    url(r'^watch/', include('api.urls_set.urls_watch')),
 
 ]

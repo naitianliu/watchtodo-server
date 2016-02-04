@@ -32,3 +32,4 @@ class Comment(models.Model):
 class Watcher(models.Model):
     action_id = models.CharField(max_length=50, null=True, blank=True)
     username = models.CharField(max_length=100)
+    timestamp = models.IntegerField()

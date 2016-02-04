@@ -22,10 +22,13 @@ def get_comment_list(request):
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
 def add_comment(request):
-    username = request.user.username
-    post_data = json.loads(request.body)
-    action_id = post_data["action_id"]
-    message = post_data["message"]
-    CommentHelper(username, action_id).add_comment(message)
-    res_dict = dict(success=True)
-    return Response(data=res_dict, status=status.HTTP_200_OK)
+    try:
+        username = request.user.username
+        post_data = json.loads(request.body)
+        action_id = post_data["action_id"]
+        message = post_data["message"]
+        CommentHelper(username, action_id).add_comment(message)
+        res_dict = dict(success=True)
+        return Response(data=res_dict, status=status.HTTP_200_OK)
+    except Exception as err:
+        print(err)
