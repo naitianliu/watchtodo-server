@@ -12,7 +12,7 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 import sys
-sys.path.append("/var/www/watchtodo")
+sys.path.append("/var/www/watchtodo/watchtodo-server")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "watchtodo.settings")
 
 application = get_wsgi_application()
