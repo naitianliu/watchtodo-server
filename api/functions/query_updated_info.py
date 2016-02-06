@@ -3,6 +3,7 @@ from api.functions.watch_helper import WatchHelper
 from api.models import Comment
 from api.models import ActionItem
 from register.models import Friend
+from register.signup.userinfo_helper import UserInfoHelper
 
 
 class QueryUpdatedInfo(object):
@@ -39,15 +40,15 @@ class QueryUpdatedInfo(object):
         updated_friends = []
         for row in Friend.objects.filter(updated_time__gte=self.last_timestamp, accepter=self.username, pending=True):
             updated_friends.append(dict(
-                requester=row.requester,
-                accepter=row.accepter,
+                requester=UserInfoHelper().get_user_info_by_username(row.requester),
+                accepter=UserInfoHelper().get_user_info_by_username(row.accepter),
                 pending=row.pending,
-                updated_time=row.updated_time
+                updated_time=row.updated_time,
             ))
         for row in Friend.objects.filter(updated_time__gte=self.last_timestamp, requester=self.username, pending=False):
             updated_friends.append(dict(
-                requester=row.requester,
-                accepter=row.accepter,
+                requester=UserInfoHelper().get_user_info_by_username(row.requester),
+                accepter=UserInfoHelper().get_user_info_by_username(row.accepter),
                 pending=row.pending,
                 updated_time=row.updated_time
             ))
