@@ -14,11 +14,19 @@ class WatchHelper(object):
             action_id_list.append(row.action_id)
         return action_id_list
 
-    def add_watcher(self, action_id, watcher_username):
-        if len(Watcher.objects.filter(action_id, watcher_username)) == 0:
+    def add_watcher(self, action_id, watchers):
+        current_watchers = []
+        for row in Watcher.objects.filter(action_id=action_id):
+            username = row.username
+            if username in watchers:
+                current_watchers.append(username)
+            else:
+                row.delete()
+        new_watchers = list(set(watchers) - set(current_watchers))
+        for username in new_watchers:
             Watcher(
                 action_id=action_id,
-                username=watcher_username,
+                username=username,
                 timestamp=self.datetime_now
             ).save()
 

@@ -11,12 +11,12 @@ import json
 @api_view(['POST'])
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
-def add_watcher(request):
+def add_watchers(request):
     username = request.user.username
     post_data = json.loads(request.body)
     action_id = post_data["action_id"]
-    watcher = post_data["watcher"]
-    WatchHelper(username).add_watcher(action_id, watcher)
+    watchers = post_data["watchers"]
+    WatchHelper(username).add_watcher(action_id, watchers)
     res_dict = dict(success=True)
     return Response(data=res_dict, status=status.HTTP_200_OK)
 
