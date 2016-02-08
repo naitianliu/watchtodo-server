@@ -5,6 +5,7 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from rest_framework.permissions import IsAuthenticated
 from api.functions.watch_helper import WatchHelper
 from api.functions.query_updated_info import QueryUpdatedInfo
+from api.utils.device_token_helper import DeviceTokenHelper
 import json
 
 
@@ -24,7 +25,7 @@ def add_watchers(request):
 @api_view(['POST'])
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
-def remove_watcher(request):
+def remove_watcher(request):pdate
     username = request.user.username
     post_data = json.loads(request.body)
     action_id = post_data["action_id"]
@@ -42,3 +43,15 @@ def get_updated_watch_list(request):
     last_timestamp = request.GET['timestamp']
     watch_updated_info = QueryUpdatedInfo(username, int(last_timestamp)).get_updated_watch_info()
     return Response(data=watch_updated_info, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@authentication_classes((BasicAuthentication, TokenAuthentication))
+@permission_classes((IsAuthenticated,))
+def update_device_token(request):
+    username = request.user.username
+    post_data = json.loads(request.body)
+    device_token = post_data["device_token"]
+    DeviceTokenHelper(username).add_update_device_token(device_token)
+    res_dict = dict(success=True)
+    return Response(data=res_dict, status=status.HTTP_200_OK)

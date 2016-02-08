@@ -6,4 +6,6 @@ urlpatterns = patterns('api.views_set.views_watch',
     url(r'^remove_watcher/$', 'remove_watcher'),
     url(r'^get_updated_watch_list/$', 'get_updated_watch_list'),
 
+    url(r'^update_device_token/$', 'update_device_token'),
+
 )

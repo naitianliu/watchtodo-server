@@ -33,3 +33,12 @@ class Watcher(models.Model):
     action_id = models.CharField(max_length=50, null=True, blank=True)
     username = models.CharField(max_length=100)
     timestamp = models.IntegerField()
+
+
+class DeviceToken(models.Model):
+    username = models.CharField(max_length=200)
+    token = models.CharField(max_length=200)
+    updated_time = models.IntegerField()
+
+    def __unicode__(self):
+        return self.username

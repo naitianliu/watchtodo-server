@@ -1,4 +1,4 @@
-from register.models import DeviceToken
+from api.models import DeviceToken
 import datetime
 
 
