@@ -25,7 +25,7 @@ def add_watchers(request):
 @api_view(['POST'])
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
-def remove_watcher(request):pdate
+def remove_watcher(request):
     username = request.user.username
     post_data = json.loads(request.body)
     action_id = post_data["action_id"]
