@@ -49,9 +49,12 @@ def get_updated_watch_list(request):
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
 def update_device_token(request):
-    username = request.user.username
-    post_data = json.loads(request.body)
-    device_token = post_data["device_token"]
-    DeviceTokenHelper(username).add_update_device_token(device_token)
-    res_dict = dict(success=True)
-    return Response(data=res_dict, status=status.HTTP_200_OK)
+    try:
+        username = request.user.username
+        post_data = json.loads(request.body)
+        device_token = post_data["device_token"]
+        DeviceTokenHelper(username).add_update_device_token(device_token)
+        res_dict = dict(success=True)
+        return Response(data=res_dict, status=status.HTTP_200_OK)
+    except Exception as err:
+        print(err)
