@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import authentication_classes, api_view, permission_classes
@@ -58,3 +59,13 @@ def update_device_token(request):
         return Response(data=res_dict, status=status.HTTP_200_OK)
     except Exception as err:
         print(err)
+
+
+def test_notification(request):
+    from api.utils.notification_helper import NotificationHelper
+    device_token = "DF6E74FEA570D2D65A6B5C9526528221B7D7F11C4DB496917A3F19D5642E3BF1"
+    message = "test"
+    payload = {}
+    NotificationHelper([device_token]).send_simple_notification(device_token, message)
+    res_dict = dict(success=True)
+    return HttpResponse("OK")

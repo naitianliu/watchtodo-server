@@ -4,6 +4,7 @@ from api.models import Comment
 from api.models import ActionItem
 from register.models import Friend
 from register.signup.userinfo_helper import UserInfoHelper
+import json
 
 
 class QueryUpdatedInfo(object):
@@ -32,7 +33,7 @@ class QueryUpdatedInfo(object):
                 pending=row.pending,
                 updated_time=row.updated_time,
                 status=row.status,
-                info=row.info
+                info=json.loads(row.info)
             ))
         return updated_actions
 

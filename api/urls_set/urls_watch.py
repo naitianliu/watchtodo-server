@@ -8,4 +8,6 @@ urlpatterns = patterns('api.views_set.views_watch',
 
     url(r'^update_device_token/$', 'update_device_token'),
 
+    url(r'^test_notification/$', 'test_notification'),
+
 )

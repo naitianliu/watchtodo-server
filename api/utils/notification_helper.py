@@ -30,7 +30,7 @@ class NotificationHelper(object):
             apns = APNs(use_sandbox=True, cert_file=self.cert_path, key_file=self.key_path)
             frame = Frame()
             identifier = 1
-            expiry = time.time() + 3600
+            expiry = int(time.time()) + 3600
             priority = 10
             payload = Payload(alert=message, sound="default", badge=1, custom=payload_dict)
             for device_token in self.device_token_list:
