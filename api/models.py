@@ -37,7 +37,7 @@ class Watcher(models.Model):
 
 class DeviceToken(models.Model):
     username = models.CharField(max_length=200)
-    device_token = models.CharField(max_length=200)
+    token = models.CharField(max_length=200)
     updated_time = models.IntegerField()
 
     def __unicode__(self):

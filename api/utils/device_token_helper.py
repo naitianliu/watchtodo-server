@@ -11,11 +11,11 @@ class DeviceTokenHelper(object):
     def add_update_device_token(self, device_token):
         try:
             row = DeviceToken.objects.get(username=self.username)
-            row.device_token = device_token
+            row.token = device_token
             row.save()
         except DeviceToken.DoesNotExist:
             DeviceToken(
                 username=self.username,
-                device_token=device_token,
+                token=device_token,
                 updated_time=self.datetime_now
             ).save()
