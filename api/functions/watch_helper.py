@@ -14,6 +14,12 @@ class WatchHelper(object):
             action_id_list.append(row.action_id)
         return action_id_list
 
+    def get_watcher_list_by_action_id(self, action_id):
+        watcher_list = []
+        for row in Watcher.objects.filter(action_id=action_id):
+            watcher_list.append(row.username)
+        return watcher_list
+
     def add_watcher(self, action_id, watchers):
         current_watchers = []
         for row in Watcher.objects.filter(action_id=action_id):

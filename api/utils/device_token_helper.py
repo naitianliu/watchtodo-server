@@ -19,3 +19,11 @@ class DeviceTokenHelper(object):
                 token=device_token,
                 updated_time=self.datetime_now
             ).save()
+
+    def get_device_token(self):
+        try:
+            row = DeviceToken.objects.get(username=self.username)
+            device_token = row.token
+            return device_token
+        except DeviceToken.DoesNotExist:
+            return None

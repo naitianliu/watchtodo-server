@@ -4,6 +4,8 @@ from rest_framework.decorators import authentication_classes, api_view, permissi
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from api.functions.comment_helper import CommentHelper
+from api.functions.watch_helper import WatchHelper
+from api.utils.notification_helper import NotificationHelper
 import json
 
 
@@ -30,6 +32,10 @@ def add_comment(request):
         message = post_data["message"]
         timestamp = post_data["timestamp"]
         CommentHelper(username, action_id, comment_id).add_comment(message, timestamp)
+        # send notification
+        watchers = WatchHelper(username).get_watcher_list_by_action_id(action_id)
+        for watcher in watchers:
+            NotificationHelper(watcher).send_simple_notification(message, payload_dict=dict(action_id=action_id))
         res_dict = dict(success=True)
         return Response(data=res_dict, status=status.HTTP_200_OK)
     except Exception as err:
