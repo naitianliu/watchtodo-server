@@ -23,7 +23,7 @@ class Project(models.Model):
 
 
 class Comment(models.Model):
-    comment_id = models.CharField(max_length=50, primary_key=True)
+    comment_id = models.CharField(max_length=50)
     action_id = models.CharField(max_length=50)
     username = models.CharField(max_length=100)
     message = models.TextField()

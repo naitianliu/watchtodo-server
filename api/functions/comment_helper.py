@@ -10,13 +10,16 @@ class CommentHelper(object):
 
     def add_comment(self, message, timestamp):
         if self.comment_id and self.action_id:
-            Comment.objects.update_or_create(
-                comment_id=self.comment_id,
-                action_id=self.action_id,
-                username=self.username,
-                message=message,
-                timestamp=int(timestamp)
-            )
+            try:
+                row = Comment.objects.get(comment_id=self.comment_id)
+            except Comment.DoesNotExist:
+                Comment(
+                    comment_id=self.comment_id,
+                    action_id=self.action_id,
+                    username=self.username,
+                    message=message,
+                    timestamp=int(timestamp)
+                ).save()
 
     def get_comment_list(self):
         comment_list = []
