@@ -25,9 +25,11 @@ def add_comment(request):
     try:
         username = request.user.username
         post_data = json.loads(request.body)
+        comment_id = post_data["comment_id"]
         action_id = post_data["action_id"]
         message = post_data["message"]
-        CommentHelper(username, action_id).add_comment(message)
+        timestamp = post_data["timestamp"]
+        CommentHelper(username, action_id, comment_id).add_comment(message, timestamp)
         res_dict = dict(success=True)
         return Response(data=res_dict, status=status.HTTP_200_OK)
     except Exception as err:
