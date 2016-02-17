@@ -20,7 +20,7 @@ class QueryUpdatedInfo(object):
                 action_id=row.action_id,
                 username=row.username,
                 message=row.message,
-                timestamp=row.timestamp
+                timestamp=str(row.timestamp)
             ))
         return updated_comments
 
