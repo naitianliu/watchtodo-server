@@ -16,6 +16,7 @@ class QueryUpdatedInfo(object):
         updated_comments = []
         for row in Comment.objects.filter(action_id__in=action_id_list, timestamp__gte=self.last_timestamp):
             updated_comments.append(dict(
+                comment_id=row.comment_id,
                 action_id=row.action_id,
                 username=row.username,
                 message=row.message,
