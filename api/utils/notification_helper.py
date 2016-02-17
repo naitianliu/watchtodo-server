@@ -11,10 +11,11 @@ class NotificationHelper(object):
         self.device_token = DeviceTokenHelper(username).get_device_token()
 
     def send_simple_notification(self, message, payload_dict):
-        apns = APNs(use_sandbox=True, cert_file=self.cert_path, key_file=self.key_path)
-        payload = Payload(alert=message, sound="default", badge=1, custom=payload_dict)
-        apns.gateway_server.send_notification(self.device_token, payload)
-        apns.gateway_server.register_response_listener(self.__response_listener)
+        if self.device_token:
+            apns = APNs(use_sandbox=True, cert_file=self.cert_path, key_file=self.key_path)
+            payload = Payload(alert=message, sound="default", badge=1, custom=payload_dict)
+            apns.gateway_server.send_notification(self.device_token, payload)
+            apns.gateway_server.register_response_listener(self.__response_listener)
 
     def send_notification_with_custom_button(self, message, button_title):
         apns = APNs(use_sandbox=True, cert_file=self.cert_path, key_file=self.key_path)
