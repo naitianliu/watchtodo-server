@@ -21,6 +21,14 @@ class TodoListHelper(object):
             ))
         return todo_list
 
+    def get_username_by_action_id(self, action_id):
+        try:
+            row = ActionItem.objects.get(action_id=action_id)
+            username = row.username
+        except ActionItem.DoesNotExist:
+            username = None
+        return username
+
     def get_open_action_id_list(self):
         action_id_list = []
         for row in ActionItem.objects.filter(username=self.username, pending=True):

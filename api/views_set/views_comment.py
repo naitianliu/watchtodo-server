@@ -5,6 +5,7 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from rest_framework.permissions import IsAuthenticated
 from api.functions.comment_helper import CommentHelper
 from api.functions.watch_helper import WatchHelper
+from api.functions.todo_list_helper import TodoListHelper
 from api.utils.notification_helper import NotificationHelper
 import json
 
@@ -39,7 +40,12 @@ def add_comment(request):
             action_id=action_id
         )
         for watcher in watchers:
-            NotificationHelper(watcher).send_simple_notification(message, payload_dict=payload_dict)
+            if watcher == username:
+                action_owner = TodoListHelper(username).get_username_by_action_id(action_id)
+                if action_owner:
+                    NotificationHelper(action_owner).send_simple_notification(message, payload_dict=payload_dict)
+            else:
+                NotificationHelper(watcher).send_simple_notification(message, payload_dict=payload_dict)
         res_dict = dict(success=True)
         return Response(data=res_dict, status=status.HTTP_200_OK)
     except Exception as err:

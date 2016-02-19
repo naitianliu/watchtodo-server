@@ -27,6 +27,14 @@ class NotificationHelper(object):
     def __response_listener(self, error_response):
         print("client get error-response: " + str(error_response))
 
+    def test(self):
+        device_token = "2E9E683DB13DB4C10C00E828E81100CA796236E841C9A14702ED7AA9BB1F499A"
+        apns = APNs(use_sandbox=True, cert_file=self.cert_path, key_file=self.key_path)
+        message = "test"
+        payload = Payload(alert=message, sound="default", badge=1)
+        apns.gateway_server.send_notification(device_token, payload)
+        apns.gateway_server.register_response_listener(self.__response_listener)
+
     '''
     def send_notification_with_payload(self, message, payload_dict):
         if self.device_token_list:
