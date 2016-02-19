@@ -4,6 +4,7 @@ from rest_framework.decorators import authentication_classes, api_view, permissi
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from register.friends.friends_helper import FriendsHelper
+from api.utils.notification_helper import NotificationHelper
 
 
 @api_view(['GET'])
@@ -35,6 +36,12 @@ def send_friend_request(request):
     username = request.user.username
     friend_username = request.GET['friend_username']
     FriendsHelper(username).send_friend_request(friend_username)
+    message = "You received a friend invitation"
+    payload_dict = dict(
+        type="friend",
+        subtype="send"
+    )
+    NotificationHelper(friend_username).send_simple_notification(message, payload_dict=payload_dict)
     res_dict = dict(
         result='success'
     )
@@ -48,6 +55,12 @@ def accept_friend_request(request):
     username = request.user.username
     friend_username = request.GET['friend_username']
     FriendsHelper(username).accept_friend_request(friend_username)
+    message = "Your invitation has been accepted"
+    payload_dict = dict(
+        type="friend",
+        subtype="accept"
+    )
+    NotificationHelper(friend_username).send_simple_notification(message, payload_dict=payload_dict)
     res_dict = dict(
         result='success'
     )

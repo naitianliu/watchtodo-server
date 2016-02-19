@@ -34,8 +34,12 @@ def add_comment(request):
         CommentHelper(username, action_id, comment_id).add_comment(message, timestamp)
         # send notification
         watchers = WatchHelper(username).get_watcher_list_by_action_id(action_id)
+        payload_dict = dict(
+            type="comment",
+            action_id=action_id
+        )
         for watcher in watchers:
-            NotificationHelper(watcher).send_simple_notification(message, payload_dict=dict(action_id=action_id))
+            NotificationHelper(watcher).send_simple_notification(message, payload_dict=payload_dict)
         res_dict = dict(success=True)
         return Response(data=res_dict, status=status.HTTP_200_OK)
     except Exception as err:
