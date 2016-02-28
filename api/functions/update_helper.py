@@ -1,5 +1,6 @@
 from api.models import Update
 from api.functions.watch_helper import WatchHelper
+import uuid
 
 MESSAGE_DICT = {
     "1001": "",
@@ -18,6 +19,7 @@ class UpdateHelper(object):
 
     def add_update(self, action_id, update_code, timestamp):
         Update(
+            uuid=uuid.uuid1(),
             action_id=action_id,
             code=update_code,
             updated_by=self.username,
@@ -30,6 +32,7 @@ class UpdateHelper(object):
         for row in Update.objects.filter(timestamp__gte=timestamp, action_id__in=action_id_list):
             code = row.code
             update_list.append(dict(
+                uuid=row.uuid,
                 action_id=row.action_id,
                 code=code,
                 message=MESSAGE_DICT[code],

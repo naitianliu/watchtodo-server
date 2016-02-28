@@ -46,6 +46,7 @@ class DeviceToken(models.Model):
 
 
 class Update(models.Model):
+    uuid = models.CharField(max_length=50)
     action_id = models.CharField(max_length=50)
     code = models.CharField(max_length=10)
     updated_by = models.CharField(max_length=200)
