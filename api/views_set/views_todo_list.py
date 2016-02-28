@@ -77,7 +77,11 @@ def update_status(request):
         action_status = post_data["status"]
         obj_todo_list = TodoListHelper(username)
         success = obj_todo_list.update_status(action_id, action_status)
-        UpdateHelper(username).add_update(action_id, "1002", obj_todo_list.datetime_now)
+        if action_status == "2":
+            code = "1003"
+        else:
+            code = "1002"
+        UpdateHelper(username).add_update(action_id, code, obj_todo_list.datetime_now)
         res_dict = dict(result=success)
         return Response(data=res_dict, status=status.HTTP_200_OK)
     except Exception as err:

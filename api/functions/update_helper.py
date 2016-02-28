@@ -3,13 +3,13 @@ from api.functions.watch_helper import WatchHelper
 import uuid
 
 MESSAGE_DICT = {
-    "1001": "",
-    "1002": "",
-    "1003": "",
-    "1004": "",
-    "1005": "",
-    "1011": "",
-    "1012": "",
+    "1001": "Creat a new action",
+    "1002": "Start to take this action",
+    "1003": "Complete this action",
+    "1004": "Delete this action",
+    "1005": "Update action content/property",
+    "1011": "Add watchers",
+    "1012": "Remove watchers",
 }
 
 
