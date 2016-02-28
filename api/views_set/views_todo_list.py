@@ -5,6 +5,7 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from rest_framework.permissions import IsAuthenticated
 from api.functions.todo_list_helper import TodoListHelper
 from api.functions.project_helper import ProjectHelper
+from api.functions.update_helper import UpdateHelper
 from api.functions.query_updated_info import QueryUpdatedInfo
 import json
 
@@ -28,7 +29,9 @@ def add_action(request):
     post_data = json.loads(request.body)
     action_id = post_data["action_id"]
     action_info = post_data["action_info"]
-    TodoListHelper(username).add_action_item(action_id, action_info)
+    obj_todo_list = TodoListHelper(username)
+    obj_todo_list.add_action_item(action_id, action_info)
+    UpdateHelper(username).add_update(action_id, "1001", obj_todo_list.datetime_now)
     success = True
     res_dict = dict(result=success)
     return Response(data=res_dict, status=status.HTTP_200_OK)
@@ -42,7 +45,9 @@ def update_action(request):
     post_data = json.loads(request.body)
     action_info = post_data["action_info"]
     action_id = post_data["action_id"]
-    success = TodoListHelper(username).update_action_item(action_id, action_info)
+    obj_todo_list = TodoListHelper(username)
+    success = obj_todo_list.update_action_item(action_id, action_info)
+    UpdateHelper(username).add_update(action_id, "1005", obj_todo_list.datetime_now)
     res_dict = dict(result=success)
     return Response(data=res_dict, status=status.HTTP_200_OK)
 
@@ -54,7 +59,9 @@ def remove_action(request):
     username = request.user.username
     post_data = json.loads(request.body)
     action_id = post_data["action_id"]
-    success = TodoListHelper(username).remove_action_item(action_id)
+    obj_todo_list = TodoListHelper(username)
+    success = obj_todo_list.remove_action_item(action_id)
+    UpdateHelper(username).add_update(action_id, "1004", obj_todo_list.datetime_now)
     res_dict = dict(result=success)
     return Response(data=res_dict, status=status.HTTP_200_OK)
 
@@ -68,7 +75,9 @@ def update_status(request):
         post_data = json.loads(request.body)
         action_id = post_data["action_id"]
         action_status = post_data["status"]
-        success = TodoListHelper(username).update_status(action_id, action_status)
+        obj_todo_list = TodoListHelper(username)
+        success = obj_todo_list.update_status(action_id, action_status)
+        UpdateHelper(username).add_update(action_id, "1002", obj_todo_list.datetime_now)
         res_dict = dict(result=success)
         return Response(data=res_dict, status=status.HTTP_200_OK)
     except Exception as err:
@@ -82,7 +91,9 @@ def complete(request):
     username = request.user.username
     post_data = json.loads(request.body)
     action_id = post_data["action_id"]
-    success = TodoListHelper(username).complete(action_id)
+    obj_todo_list = TodoListHelper(username)
+    success = obj_todo_list.complete(action_id)
+    UpdateHelper(username).add_update(action_id, "1003", obj_todo_list.datetime_now)
     res_dict = dict(result=success)
     return Response(data=res_dict, status=status.HTTP_200_OK)
 

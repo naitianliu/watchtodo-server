@@ -43,3 +43,10 @@ class DeviceToken(models.Model):
 
     def __unicode__(self):
         return self.username
+
+
+class Update(models.Model):
+    action_id = models.CharField(max_length=50)
+    code = models.CharField(max_length=10)
+    updated_by = models.CharField(max_length=200)
+    timestamp = models.IntegerField()
