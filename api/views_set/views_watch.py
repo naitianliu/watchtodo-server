@@ -53,11 +53,14 @@ def get_updated_watch_list(request):
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
 def get_update_list(request):
-    username = request.user.username
-    last_timestamp = request.GET['timestamp']
-    update_list = UpdateHelper(username).get_update_list(int(last_timestamp))
-    res_dict = dict(update_list=update_list)
-    return Response(data=res_dict, status=status.HTTP_200_OK)
+    try:
+        username = request.user.username
+        last_timestamp = request.GET['timestamp']
+        update_list = UpdateHelper(username).get_update_list(int(last_timestamp))
+        res_dict = dict(update_list=update_list)
+        return Response(data=res_dict, status=status.HTTP_200_OK)
+    except Exception as err:
+        print(err)
 
 
 @api_view(['POST'])
