@@ -46,7 +46,12 @@ def get_updated_watch_list(request):
     username = request.user.username
     last_timestamp = request.GET['timestamp']
     watch_updated_info = QueryUpdatedInfo(username, int(last_timestamp)).get_updated_watch_info()
-    return Response(data=watch_updated_info, status=status.HTTP_200_OK)
+    update_list = UpdateHelper(username).get_update_list(int(last_timestamp))
+    res_dict = dict(
+        watch_updated_info=watch_updated_info,
+        update_list=update_list
+    )
+    return Response(data=res_dict, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
