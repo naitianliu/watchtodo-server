@@ -5,6 +5,7 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from rest_framework.permissions import IsAuthenticated
 from api.functions.todo_list_helper import TodoListHelper
 from api.functions.project_helper import ProjectHelper
+from api.functions.watch_helper import WatchHelper
 from api.functions.update_helper import UpdateHelper
 from api.functions.query_updated_info import QueryUpdatedInfo
 import json
@@ -31,6 +32,10 @@ def add_action(request):
     action_info = post_data["action_info"]
     obj_todo_list = TodoListHelper(username)
     obj_todo_list.add_action_item(action_id, action_info)
+    if "watchers" in post_data:
+        watchers = post_data["watchers"]
+        obj_watch = WatchHelper(username)
+        obj_watch.add_watcher(action_id, watchers)
     UpdateHelper(username).add_update(action_id, "1001", obj_todo_list.datetime_now)
     success = True
     res_dict = dict(result=success)
