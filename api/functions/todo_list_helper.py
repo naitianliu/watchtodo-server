@@ -58,7 +58,8 @@ class TodoListHelper(object):
     def remove_action_item(self, action_id):
         try:
             row = ActionItem.objects.get(action_id=action_id, username=self.username)
-            row.delete()
+            row.status = 3
+            row.save()
             success = True
         except ActionItem.DoesNotExist:
             success = False
