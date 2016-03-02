@@ -36,6 +36,11 @@ class Watcher(models.Model):
     timestamp = models.IntegerField()
 
 
+class WatcherProject(models.Model):
+    project_id = models.CharField(max_length=50, null=True, blank=True)
+    username = models.CharField(max_length=100)
+
+
 class DeviceToken(models.Model):
     username = models.CharField(max_length=200)
     token = models.CharField(max_length=200)

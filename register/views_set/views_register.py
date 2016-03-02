@@ -10,6 +10,7 @@ from register.utils.token_helper import TokenHelper
 from django.contrib.auth.models import User
 from django.contrib import auth
 from rest_framework.authtoken.models import Token
+from api.functions.project_helper import ProjectHelper
 
 # Create your views here.
 
@@ -25,6 +26,8 @@ def register(request):
         success=success,
     )
     if success:
+        # initiate default project at registration
+        ProjectHelper(username).initiate_default_projects_at_registration()
         token = TokenHelper().generate_token(username=username)
         res_dict['token'] = token
         res_dict['user_info'] = SignupHelper().get_user_info_by_username(username)

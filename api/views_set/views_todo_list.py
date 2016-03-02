@@ -108,24 +108,27 @@ def complete(request):
 def add_project(request):
     username = request.user.username
     post_data = json.loads(request.body)
-    project_id = post_data["project_id"]
     project_name = post_data["project_name"]
-    ProjectHelper(username).add_project(project_id, project_name)
+    obj_project = ProjectHelper(username)
+    project_id = obj_project.add_project(project_name)
+    if 'watchers' in post_data:
+        watchers = post_data['watchers']
+        obj_project.add_watchers_into_project(project_id, watchers)
     success = True
-    res_dict = dict(result=success)
+    res_dict = dict(
+        result=success,
+        project_id=project_id
+    )
     return Response(data=res_dict, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
-def initiate_default_projects(request):
+def get_all_projects(request):
     username = request.user.username
-    post_data = json.loads(request.body)
-    default_projects = post_data["default_projects"]
-    ProjectHelper(username).initiate_default_projects_at_registration(default_projects)
-    success = True
-    res_dict = dict(result=success)
+    projects = ProjectHelper(username).get_all_projects()
+    res_dict = dict(projects=projects)
     return Response(data=res_dict, status=status.HTTP_200_OK)
 
 
