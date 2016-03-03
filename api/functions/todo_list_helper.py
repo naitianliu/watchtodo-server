@@ -59,6 +59,7 @@ class TodoListHelper(object):
         try:
             row = ActionItem.objects.get(action_id=action_id, username=self.username)
             row.status = 3
+            row.pending = False
             row.save()
             success = True
         except ActionItem.DoesNotExist:
