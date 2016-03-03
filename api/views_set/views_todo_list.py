@@ -7,6 +7,7 @@ from api.functions.todo_list_helper import TodoListHelper
 from api.functions.project_helper import ProjectHelper
 from api.functions.watch_helper import WatchHelper
 from api.functions.query_updated_info import QueryUpdatedInfo
+from api.functions.update_helper import UpdateHelper
 import json
 
 
