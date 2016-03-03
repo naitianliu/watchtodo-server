@@ -6,7 +6,6 @@ from rest_framework.permissions import IsAuthenticated
 from api.functions.todo_list_helper import TodoListHelper
 from api.functions.project_helper import ProjectHelper
 from api.functions.watch_helper import WatchHelper
-from api.functions.update_helper import UpdateHelper
 from api.functions.query_updated_info import QueryUpdatedInfo
 import json
 
@@ -31,28 +30,12 @@ def add_action(request):
     action_id = post_data["action_id"]
     action_info = post_data["action_info"]
     obj_todo_list = TodoListHelper(username)
-    obj_todo_list.add_action_item(action_id, action_info)
+    obj_todo_list.add_update_action_item(action_id, action_info)
     if "watchers" in post_data:
         watchers = post_data["watchers"]
         obj_watch = WatchHelper(username)
         obj_watch.add_watcher(action_id, watchers)
-    UpdateHelper(username).add_update(action_id, "1001", obj_todo_list.datetime_now)
     success = True
-    res_dict = dict(result=success)
-    return Response(data=res_dict, status=status.HTTP_200_OK)
-
-
-@api_view(['POST'])
-@authentication_classes((BasicAuthentication, TokenAuthentication))
-@permission_classes((IsAuthenticated,))
-def update_action(request):
-    username = request.user.username
-    post_data = json.loads(request.body)
-    action_info = post_data["action_info"]
-    action_id = post_data["action_id"]
-    obj_todo_list = TodoListHelper(username)
-    success = obj_todo_list.update_action_item(action_id, action_info)
-    UpdateHelper(username).add_update(action_id, "1005", obj_todo_list.datetime_now)
     res_dict = dict(result=success)
     return Response(data=res_dict, status=status.HTTP_200_OK)
 

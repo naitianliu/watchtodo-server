@@ -1,6 +1,7 @@
 from api.models import ActionItem
 import json
 import datetime
+from api.functions.update_helper import UpdateHelper
 
 
 class TodoListHelper(object):
@@ -35,31 +36,30 @@ class TodoListHelper(object):
             action_id_list.append(row.action_id)
         return action_id_list
 
-    def add_action_item(self, action_id, action_info):
-        ActionItem(
-            action_id=action_id,
-            username=self.username,
-            pending=True,
-            status=0,
-            updated_time=self.datetime_now,
-            info=json.dumps(action_info)
-        ).save()
-
-    def update_action_item(self, action_id, action_info):
+    def add_update_action_item(self, action_id, action_info):
         try:
             row = ActionItem.objects.get(action_id=action_id, username=self.username)
             row.info = json.dumps(action_info)
+            row.updated_time = self.datetime_now
             row.save()
-            success = True
+            UpdateHelper(self.username).add_update(action_id, "1004", self.datetime_now)
         except ActionItem.DoesNotExist:
-            success = False
-        return success
+            ActionItem(
+                action_id=action_id,
+                username=self.username,
+                pending=True,
+                status=0,
+                updated_time=self.datetime_now,
+                info=json.dumps(action_info)
+            ).save()
+            UpdateHelper(self.username).add_update(action_id, "1001", self.datetime_now)
 
     def remove_action_item(self, action_id):
         try:
             row = ActionItem.objects.get(action_id=action_id, username=self.username)
             row.status = 3
             row.pending = False
+            row.updated_time = self.datetime_now
             row.save()
             success = True
         except ActionItem.DoesNotExist:
