@@ -11,12 +11,16 @@ from api.utils.notification_helper import NotificationHelper
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
 def get_friend_list(request):
-    username = request.user.username
-    friend_list = FriendsHelper(username).get_friend_list_by_username()
-    res_dict = dict(
-        friend_list=friend_list
-    )
-    return Response(data=res_dict, status=status.HTTP_200_OK)
+    try:
+        username = request.user.username
+        friend_list = FriendsHelper(username).get_friend_list_by_username()
+        res_dict = dict(
+            friend_list=friend_list
+        )
+        return Response(data=res_dict, status=status.HTTP_200_OK)
+    except Exception as err:
+        print("error: get_friend_list")
+        print(err)
 
 
 @api_view(['GET'])

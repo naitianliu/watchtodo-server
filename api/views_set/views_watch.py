@@ -43,15 +43,19 @@ def remove_watcher(request):
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
 def get_updated_watch_list(request):
-    username = request.user.username
-    last_timestamp = request.GET['timestamp']
-    watch_updated_info = QueryUpdatedInfo(username, int(last_timestamp)).get_updated_watch_info()
-    update_list = UpdateHelper(username).get_update_list(int(last_timestamp))
-    res_dict = dict(
-        watch_updated_info=watch_updated_info,
-        update_list=update_list
-    )
-    return Response(data=res_dict, status=status.HTTP_200_OK)
+    try:
+        username = request.user.username
+        last_timestamp = request.GET['timestamp']
+        watch_updated_info = QueryUpdatedInfo(username, int(last_timestamp)).get_updated_watch_info()
+        update_list = UpdateHelper(username).get_update_list(int(last_timestamp))
+        res_dict = dict(
+            watch_updated_info=watch_updated_info,
+            update_list=update_list
+        )
+        return Response(data=res_dict, status=status.HTTP_200_OK)
+    except Exception as err:
+        print("error: get_updated_watch_list")
+        print(err)
 
 
 @api_view(['GET'])
@@ -65,6 +69,7 @@ def get_update_list(request):
         res_dict = dict(update_list=update_list)
         return Response(data=res_dict, status=status.HTTP_200_OK)
     except Exception as err:
+        print("error: get_update_list")
         print(err)
 
 
