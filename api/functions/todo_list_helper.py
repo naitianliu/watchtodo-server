@@ -32,7 +32,7 @@ class TodoListHelper(object):
 
     def get_open_action_id_list(self):
         action_id_list = []
-        for row in ActionItem.objects.filter(username=self.username, pending=True):
+        for row in ActionItem.objects.filter(username=self.username, status__in=["0", "1"]):
             action_id_list.append(row.action_id)
         return action_id_list
 
