@@ -7,9 +7,8 @@ class ActionItem(models.Model):
     action_id = models.CharField(max_length=50)
     project_id = models.CharField(max_length=50, blank=True, null=True)
     username = models.CharField(max_length=100)
-    pending = models.BooleanField(default=True)
     updated_time = models.IntegerField()
-    status = models.IntegerField()
+    status = models.CharField(max_length=4, default="0")
     info = models.TextField()
 
     def __unicode__(self):

@@ -16,7 +16,7 @@ class TodoListHelper(object):
             todo_list.append(dict(
                 action_id=row.action_id,
                 username=row.username,
-                pending=row.pending,
+                status=row.status,
                 updated_time=row.updated_time,
                 info=json.loads(row.info)
             ))
@@ -47,8 +47,7 @@ class TodoListHelper(object):
             ActionItem(
                 action_id=action_id,
                 username=self.username,
-                pending=True,
-                status=0,
+                status="0",
                 updated_time=self.datetime_now,
                 info=json.dumps(action_info)
             ).save()
@@ -57,8 +56,7 @@ class TodoListHelper(object):
     def remove_action_item(self, action_id):
         try:
             row = ActionItem.objects.get(action_id=action_id, username=self.username)
-            row.status = 3
-            row.pending = False
+            row.status = "3"
             row.updated_time = self.datetime_now
             row.save()
             success = True
@@ -69,7 +67,7 @@ class TodoListHelper(object):
     def update_status(self, action_id, status):
         try:
             row = ActionItem.objects.get(action_id=action_id, username=self.username)
-            row.status = int(status)
+            row.status = status
             row.updated_time = self.datetime_now
             row.save()
             success = True
@@ -80,8 +78,7 @@ class TodoListHelper(object):
     def complete(self, action_id):
         try:
             row = ActionItem.objects.get(action_id=action_id, username=self.username)
-            row.status = 2
-            row.pending = False
+            row.status = "2"
             row.updated_time = self.datetime_now
             row.save()
             success = True
