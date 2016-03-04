@@ -31,7 +31,6 @@ class QueryUpdatedInfo(object):
                 action_id=row.action_id,
                 project_id=row.project_id,
                 username=row.username,
-                pending=row.pending,
                 updated_time=row.updated_time,
                 status=row.status,
                 info=json.loads(row.info)
