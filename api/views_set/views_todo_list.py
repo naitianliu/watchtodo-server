@@ -125,7 +125,11 @@ def get_all_projects(request):
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
 def get_updated_info(request):
-    username = request.user.username
-    last_timestamp = request.GET['timestamp']
-    updated_info = QueryUpdatedInfo(username, int(last_timestamp)).updated_info()
-    return Response(data=updated_info, status=status.HTTP_200_OK)
+    try:
+        username = request.user.username
+        last_timestamp = request.GET['timestamp']
+        updated_info = QueryUpdatedInfo(username, int(last_timestamp)).updated_info()
+        return Response(data=updated_info, status=status.HTTP_200_OK)
+    except Exception as err:
+        print("error: get_updated_info")
+        print(err)
