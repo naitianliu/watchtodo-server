@@ -5,12 +5,15 @@ from api.models import ActionItem
 from register.models import Friend
 from register.signup.userinfo_helper import UserInfoHelper
 import json
+import datetime
 
 
 class QueryUpdatedInfo(object):
     def __init__(self, username, last_timestamp):
         self.username = username
         self.last_timestamp = last_timestamp
+        timestamp_str = datetime.datetime.now().strftime('%s')
+        self.current_timestamp = int(timestamp_str)
 
     def __get_updated_comments_by_actions(self, action_id_list):
         updated_comments = []
@@ -68,7 +71,8 @@ class QueryUpdatedInfo(object):
             updated_comments_me=updated_comments_me,
             updated_actions_watch=updated_actions_watch,
             updated_comments_watch=updated_comments_watch,
-            updated_friends=updated_friends
+            updated_friends=updated_friends,
+            current_timestamp=self.current_timestamp
         )
         return updated_info
 

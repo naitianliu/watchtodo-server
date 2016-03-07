@@ -128,7 +128,8 @@ def get_updated_info(request):
     try:
         username = request.user.username
         last_timestamp = request.GET['timestamp']
-        updated_info = QueryUpdatedInfo(username, int(last_timestamp)).updated_info()
+        obj_updated_info = QueryUpdatedInfo(username, int(last_timestamp))
+        updated_info = obj_updated_info.updated_info()
         return Response(data=updated_info, status=status.HTTP_200_OK)
     except Exception as err:
         print("error: get_updated_info")
