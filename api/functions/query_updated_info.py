@@ -59,20 +59,28 @@ class QueryUpdatedInfo(object):
         return updated_friends
 
     def updated_info(self):
+        print(1)
         my_action_id_list = TodoListHelper(self.username).get_open_action_id_list()
+        print(2)
         updated_actions_me = self.__get_updated_actions_by_actions(my_action_id_list)
+        print(3)
         updated_comments_me = self.__get_updated_comments_by_actions(my_action_id_list)
+        print(4)
         watch_action_id_list = WatchHelper(self.username).get_watch_action_id_list()
+        print(5)
         updated_actions_watch = self.__get_updated_actions_by_actions(watch_action_id_list)
+        print(6)
         updated_comments_watch = self.__get_updated_comments_by_actions(watch_action_id_list)
+        print(7)
         updated_friends = self.__get_updated_friends()
+        print(8)
         updated_info = dict(
             updated_actions_me=updated_actions_me,
             updated_comments_me=updated_comments_me,
             updated_actions_watch=updated_actions_watch,
             updated_comments_watch=updated_comments_watch,
             updated_friends=updated_friends,
-            current_timestamp=self.current_timestamp
+            current_timestamp=str(self.current_timestamp)
         )
         return updated_info
 
