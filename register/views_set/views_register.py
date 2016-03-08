@@ -63,3 +63,7 @@ def logout(request):
         success=True
     )
     return Response(data=res_dict, status=status.HTTP_200_OK)
+
+
+def version(request):
+    return HttpResponse("OK")
