@@ -27,10 +27,14 @@ def get_friend_list(request):
 @authentication_classes((BasicAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
 def get_user_list_by_keyword(request):
-    username = request.user.username
-    keyword = request.GET['keyword']
-    res_dict = FriendsHelper(username).get_user_list_by_keyword(keyword)
-    return Response(data=res_dict, status=status.HTTP_200_OK)
+    try:
+        username = request.user.username
+        keyword = request.GET['keyword']
+        res_dict = FriendsHelper(username).get_user_list_by_keyword(keyword)
+        return Response(data=res_dict, status=status.HTTP_200_OK)
+    except Exception as err:
+        print(get_user_list_by_keyword)
+        print(err)
 
 
 @api_view(['GET'])
