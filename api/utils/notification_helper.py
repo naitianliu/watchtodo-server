@@ -12,13 +12,13 @@ class NotificationHelper(object):
 
     def send_simple_notification(self, message, payload_dict):
         if self.device_token:
-            apns = APNs(use_sandbox=True, cert_file=self.cert_path, key_file=self.key_path)
+            apns = APNs(use_sandbox=False, cert_file=self.cert_path, key_file=self.key_path)
             payload = Payload(alert=message, sound="default", badge=1, custom=payload_dict)
             apns.gateway_server.send_notification(self.device_token, payload)
             apns.gateway_server.register_response_listener(self.__response_listener)
 
     def send_notification_with_custom_button(self, message, button_title):
-        apns = APNs(use_sandbox=True, cert_file=self.cert_path, key_file=self.key_path)
+        apns = APNs(use_sandbox=False, cert_file=self.cert_path, key_file=self.key_path)
         alert = PayloadAlert(message, action_loc_key=button_title)
         payload = Payload(alert=alert, sound="default")
         apns.gateway_server.send_notification(self.device_token, payload)
@@ -29,7 +29,7 @@ class NotificationHelper(object):
 
     def test(self):
         device_token = "2E9E683DB13DB4C10C00E828E81100CA796236E841C9A14702ED7AA9BB1F499A"
-        apns = APNs(use_sandbox=True, cert_file=self.cert_path, key_file=self.key_path)
+        apns = APNs(use_sandbox=False, cert_file=self.cert_path, key_file=self.key_path)
         message = "test"
         payload = Payload(alert=message, sound="default", badge=1)
         apns.gateway_server.send_notification(device_token, payload)
