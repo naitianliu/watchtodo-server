@@ -24,7 +24,7 @@ PROD = True
 SECRET_KEY = '(+_m=q+&#)9j9n@67pdh)b_4vnpagi$!8p*am3_7m*^iho*9c7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not PROD
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
